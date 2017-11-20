@@ -3,40 +3,72 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="grid.css">
     <link rel="stylesheet" href="index.css">
-    <title>Thinkful Tube</title>
+    <title>Movie app</title>
   </head>
   <body>
-   <div class="container">
-      <h1>Search YouTube</h1>
-      <form action="#" class="js-search-form">
-        <label for="search"></label>
-        <input type="text" id='search' class="js-query" placeholder="search for ..." autofocus required>
+   <!-- <div class="container"> -->
+   <div class="row">
+     <div class="col-12">
+         <h1>Movie app</h1>
+         <h2>API Hack capstone project</h2>
+         <p>Search by movie title to get reviews, trailers, and more details about the movie.</p>
 
-        <button type="submit">Search</button>
-      </form>
+       </div><!-- end col-12 -->
+     </div><!-- end row 1 -->
 
-      <main role="main">
-      <h2>Results</h2>
-      <div class="btn-group">
-        <button type="submit" class="js-btn-prev">Previous</button>
-        <button type="submit" class="js-btn-next">Next</button>
-      </div>
-      <div class="js-search-results" aria-live="assertive" hidden></div>
-   </div> <!-- end of container -->
- </main>
+     <div class="row">
+      <div class="col-4">
+        <div class="btn-selection">
+          <button type="button" name="button" class="youTube-btn">You tube</button>
+          <button type="button" name="button" class="NY-btn">NY Times</button>
+          <button type="button" name="button" class="movieDB-btn">the Movie DB</button>
+          <button type="button" name="button" class="mojo-btn">Box Office Mojo</button>
+        </div>
+      </div><!-- end col-4 -->
 
- <div class="lightbox hidden">
+       <div class="col-8">
+         <section role="region">
+           <form action="#" class="js-search-form">
+             <label for="search">Start searching:</label>
+             <input type="text" id='search' class="js-query" autofocus required>
+             <button type="submit">Go</button>
+           </form>
+         </section>
+       </div><!-- end col-8 -->
+     </div><!-- end row 2 -->
+
+      <div class="row">
+       <div class="col-3 empty"></div>
+       <div class="col-6">
+         <section class="output" hidden="true">
+           <h2 class="title">Results</h2>
+           <div class="btn-group">
+             <button type="submit" class="js-btn-prev">Previous</button>
+             <button type="submit" class="js-btn-next">Next</button>
+           </div>
+           <div class="js-search-results" aria-live="assertive" hidden></div>
+         </section>
+
+         <section class="mojo" hidden="true" aria-live="assertive">
+           <p>This weekend top 5 movies:</p>
+           <script type="text/javascript" language="javascript" src="http://www.boxofficemojo.com/data/js/wknd5.php?h=myclass1&r=myclass2"></script>
+         </section>
+       </div><!-- end col-6 -->
+       <div class="col-3 empty"></div>
+      </div><!-- end of row 3 -->
+
+   <!-- </div> end of container -->
+
+
+ <div class="lightbox hidden" hidden="true">
       <div class="video">
         <iframe src=""></iframe>
         <button class="close-btn">Close</button>
       </div>
-
-
- </div>
-
- <div class="overlay hidden"></div>
-
+ </div><!-- end lightbox -->
+ <div class="overlay hidden" hidden="true"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="index.js"></script>
   </body>

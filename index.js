@@ -1,6 +1,7 @@
 const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
 let nextPage;
 let prevPage;
+let query;
 
 // channelId: 'UCwTcFaOYFjIbxHjrmP0ptxw',
 let query_string = {
@@ -31,7 +32,7 @@ function submit() {
   $('.js-search-form').submit(event => {
     event.preventDefault();
 
-    let query = $('#search').val();
+    query = $('#search').val();
     console.log(query);
     $('#search').val(''); // clear out the input field
 
@@ -61,21 +62,56 @@ function prevVideo() {
     $.getJSON(youTubeUrl, query_string, displaySearchData);
   });
 }
-//shows and closes lightbox when clicked on image
+
+function showLightbox() {
+  $('.lightbox')
+    .removeClass('hidden')
+    .prop('hidden', false);
+  $('.overlay')
+    .removeClass('hidden')
+    .prop('hidden', false);
+}
+
+function hideLightbox() {
+  $('.lightbox')
+    .addClass('hidden')
+    .prop('hidden', true);
+  $('.overlay')
+    .addClass('hidden')
+    .prop('hidden', true);
+  $('iframe').attr('src', '');
+}
+
+//responsible for operating lightbox when image is selected
 function videoClick() {
-  $('.js-result-link').click(function() {
-    $('.lightbox').removeClass('hidden');
-    $('.overlay').removeClass('hidden');
+  let activeElement;
+  $('.js-result-link').bind('click keypress', function() {
+    activeElement = $(this);
+    showLightbox();
 
     let videoId = $(this).attr('data-videoId');
-
-    $('iframe').attr('src', `https://www.youtube.com/embed/${videoId}`);
+    let title = $(this).attr('data-title');
+    $('iframe')
+      .attr('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`)
+      .attr('title', title);
   });
 
-  $('.close-btn, .overlay').click(function() {
-    $('.lightbox').addClass('hidden');
-    $('.overlay').addClass('hidden');
-    $('iframe').attr('src', '');
+  // $('.lightbox').bind('keypress', function(e) {
+  //   if (e.which === 27 || e.which === 13) {
+  //     hideLightbox();
+  //   }
+  // });
+
+  $('.close-btn, .overlay').bind('click', function() {
+    hideLightbox();
+    activeElement.focus();
+  });
+}
+
+//open close boxofficemojo
+function boxOfficeMojo() {
+  $('.mojo-btn').click(function() {
+    $('.mojo').prop('hidden', false);
   });
 }
 
@@ -83,6 +119,7 @@ function init() {
   submit();
   nextVideo();
   prevVideo();
+  boxOfficeMojo();
 }
 
 $(init);

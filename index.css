@@ -9,14 +9,13 @@ body {
   color: #3d5c5c;
 }
 
-.container {
+/*.container {
   width: 50%;
   min-width: 310px;
   padding: 20px;
   margin: 10px auto;
-  text-align: center;
-  background-color: #eff5f5;
-}
+  background-color: #e7e7e7;
+}*/
 
 /* Styles for search area and buttons*/
 h1 {
@@ -84,6 +83,23 @@ img:hover {
 .js-channel {
   display: block;
   font-size: 1rem;
+}
+
+.btn-selection {
+  display: block;
+}
+
+.btn-selection button {
+  width: 210px;
+  text-align: left;
+}
+
+.mojo {
+  margin: 0 auto;
+}
+
+.empty {
+  width: 150px;
 }
 
 /*Styles for lightbox*/
