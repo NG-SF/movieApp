@@ -9,67 +9,78 @@
   </head>
   <body>
    <!-- <div class="container"> -->
-   <div class="row">
-     <div class="col-12">
-         <h1>Movie app</h1>
-         <h2>API Hack capstone project</h2>
-         <p>Search by movie title to get reviews, trailers, and more details about the movie.</p>
 
-       </div><!-- end col-12 -->
-     </div><!-- end row 1 -->
-
-     <div class="row">
-      <div class="col-4">
+  <div class="row">
+    <div class="col-4">
         <div class="btn-selection">
-          <button type="button" name="button" class="youTube-btn">You tube</button>
-          <button type="button" name="button" class="NY-btn">NY Times</button>
-          <button type="button" name="button" class="movieDB-btn">the Movie DB</button>
-          <button type="button" name="button" class="mojo-btn">Box Office Mojo</button>
-        </div>
+          <button type="button" name="button" class="js-btn youTubeAll-btn">You tube: trailers</button>
+          <button type="button" name="button" class="js-btn youTube-btn">You tube: What the Flick</button>
+          <button type="button" name="button" class="js-btn NY-btn">NY Times Movie Reviews</button>
+          <button type="button" name="button" class="js-btn movieDB-btn">The Movie DB</button>
+          <button type="button" name="button" class="js-btn mojo-btn">Box Office Mojo</button>
+          <button type="button" name="button" class="js-btn links-btn">Other resourses</button>
+        </div><!-- end btn-selection -->
       </div><!-- end col-4 -->
 
-       <div class="col-8">
-         <section role="region">
+    <div class="col-8">
+        <section role="region">
+           <h1>Movie night planning app</h1>
+           <p>Search by movie title to get reviews, trailers, and more details about the movie.</p>
+           <p>Begin by entering name of the movie in a search box or check out top grossing movies of the weekend by selecting Box Office Mojo</p>
            <form action="#" class="js-search-form">
              <label for="search">Start searching:</label>
              <input type="text" id='search' class="js-query" autofocus required>
              <button type="submit">Go</button>
            </form>
          </section>
-       </div><!-- end col-8 -->
-     </div><!-- end row 2 -->
+     </div><!-- end col-8 -->
+   </div><!-- end row 1 -->
 
-      <div class="row">
-       <div class="col-3 empty"></div>
-       <div class="col-6">
-         <section class="output" hidden="true">
-           <h2 class="title">Results</h2>
-           <div class="btn-group">
+  <div class="row">
+    <div class="col-4 empty"></div>
+    <div class="col-6 centerCol">
+       <section role='region' class="output" hidden="true">
+          <div class="btn-group">
              <button type="submit" class="js-btn-prev">Previous</button>
              <button type="submit" class="js-btn-next">Next</button>
            </div>
-           <div class="js-search-results" aria-live="assertive" hidden></div>
-         </section>
+           <div class="js-search-results" aria-live="assertive" hidden>
+              <h2 class="title"></h2>
+           </div>
+         </section><!-- end output -->
 
-         <section class="mojo" hidden="true" aria-live="assertive">
-           <p>This weekend top 5 movies:</p>
-           <script type="text/javascript" language="javascript" src="http://www.boxofficemojo.com/data/js/wknd5.php?h=myclass1&r=myclass2"></script>
+         <section role='region' class="mojo" hidden="true" aria-live="assertive">
+           <h2>This Weekend top 5 movies</h2>
+           <script type="text/javascript" language="javascript" src="http://www.boxofficemojo.com/data/js/wknd5.php?h=myclass1&r=myclass2">
+           </script>
+         </section><!-- end mojo -->
+
+         <section role='region' class="js-links" hidden="true">
+          <h2>Useful links</h2>
+          <ul>
+            <li><a href="http://www.imdb.com/" target="_blank">Go to IMDB</a></li>
+            <li><a href="https://www.rottentomatoes.com/" target="_blank">Rotten Tomatoes</a> </li>
+            <li><a href="https://www.amazon.com/b/ref=lp_2858778011_sd_allcat_aiv?rh=i%3Ainstant-video%2Cn%3A2858778011&ie=UTF8&node=2858778011" target="_blank">Amazon Video</a></li>
+            <li><a href="https://www.cinemark.com/theatre-467" target="_blank">Cinemark</a> </li>
+            <li><a href="https://www.fandango.com/amc-metreon-16-aanem/theater-page" target="_blank">AMC Metreon</a> </li>
+          </ul>
          </section>
-       </div><!-- end col-6 -->
-       <div class="col-3 empty"></div>
-      </div><!-- end of row 3 -->
+      </div><!-- end col-6 -->
+      <div class="col-4 empty"></div>
+    </div><!-- end of row 2 -->
 
    <!-- </div> end of container -->
 
 
  <div class="lightbox hidden" hidden="true">
-      <div class="video">
+    <div class="video">
         <iframe src=""></iframe>
         <button class="close-btn">Close</button>
-      </div>
+    </div>
  </div><!-- end lightbox -->
  <div class="overlay hidden" hidden="true"></div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="index.js"></script>
-  </body>
+</body>
 </html>

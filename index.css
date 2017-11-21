@@ -7,6 +7,7 @@ body {
   font-family: Helvetica, sans-serif;
   letter-spacing: 1px;
   color: #3d5c5c;
+  line-height: 1.5rem;
 }
 
 /*.container {
@@ -19,12 +20,14 @@ body {
 
 /* Styles for search area and buttons*/
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.6rem;
+  text-align: center;
 }
 
 h2 {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   margin-top: 20px;
+  text-align: center;
 }
 
 input {
@@ -51,9 +54,11 @@ button {
   vertical-align: bottom;
   background-color: #c2d6d6;
   border: 1px solid #94b8b8;
+  margin: 1px;
 }
 
-button:hover {
+button:hover,
+.selected {
   background-color: #5c8a8a;
 }
 
@@ -87,19 +92,31 @@ img:hover {
 
 .btn-selection {
   display: block;
+  padding-top: 100px;
 }
 
 .btn-selection button {
-  width: 210px;
+  width: 250px;
   text-align: left;
 }
 
-.mojo {
+.centerCol {
   margin: 0 auto;
+  float: none;
+  display: block;
+  padding-left: 60px;
+}
+
+.mojo {
+  margin: 40px auto;
 }
 
 .empty {
   width: 150px;
+}
+
+.output {
+  margin-top: 40px;
 }
 
 /*Styles for lightbox*/

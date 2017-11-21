@@ -1,4 +1,5 @@
 const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
+let title = $('.title');
 let nextPage;
 let prevPage;
 let query;
@@ -21,8 +22,10 @@ function displaySearchData(json) {
       <img class='js-img' src='${item.snippet.thumbnails.medium.url}'></a>
     </div>`;
   });
+  $('.output').prop('hidden', false);
   $('.js-search-results')
     .prop('hidden', false)
+    .empty()
     .html(results);
   videoClick();
 }
@@ -41,9 +44,59 @@ function submit() {
     if (query === '' || query === undefined) {
       $('.js-search-results').html(`<p>Please enter what you want to search for</p>`);
     } else {
-      query_string.q = `What the Flick ${query} Official Movie Review`;
-      $.getJSON(youTubeUrl, query_string, displaySearchData);
+      youTubeAll();
     }
+  });
+}
+
+function youTube() {
+  $('.youTube-btn').bind('click keypress', function() {
+    $('.btn').removeClass('selected');
+    $('.youTube-btn').addClass('selected');
+    $('.mojo').prop('hidden', true);
+    title.text('Movie review from What the Flick YouTube channel');
+    query_string.q = `What the Flick ${query} Official Movie Review`;
+    $.getJSON(youTubeUrl, query_string, displaySearchData);
+  });
+}
+
+//shows trailers
+function youTubeAll() {
+  $('.js-btn').removeClass('selected');
+  $('.youTubeAll-btn').addClass('selected');
+  $('.mojo').prop('hidden', true);
+  title.text('Movie trailers');
+  query_string.q = `${query} Official Movie trailer`;
+  query_string.maxResults = '5';
+  $.getJSON(youTubeUrl, query_string, displaySearchData);
+}
+
+// when button clicked shows trailers
+$('.youTubeAll-btn').bind('click keypress', function() {
+  youTubeAll();
+});
+
+//open close boxofficemojo
+function boxOfficeMojo() {
+  $('.mojo-btn').click(function() {
+    $('.js-search-results').empty();
+    $('.js-links').prop('hidden', true);
+    $('.mojo').prop('hidden', false);
+    title.text('This weekend top 5 movies:');
+    $('.js-btn').removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+  });
+}
+
+function showLinks() {
+  $('.links-btn').bind('click keypress', function() {
+    $('.js-search-results').empty();
+    $('.mojo').prop('hidden', true);
+    $('.js-btn').removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+    $('.js-links').prop('hidden', false);
   });
 }
 
@@ -82,6 +135,13 @@ function hideLightbox() {
   $('iframe').attr('src', '');
 }
 
+// hides lightbox when esc key pressed
+$(document).keyup(function(e) {
+  if (e.keyCode == 27) {
+    hideLightbox();
+  }
+});
+
 //responsible for operating lightbox when image is selected
 function videoClick() {
   let activeElement;
@@ -96,22 +156,9 @@ function videoClick() {
       .attr('title', title);
   });
 
-  // $('.lightbox').bind('keypress', function(e) {
-  //   if (e.which === 27 || e.which === 13) {
-  //     hideLightbox();
-  //   }
-  // });
-
   $('.close-btn, .overlay').bind('click', function() {
     hideLightbox();
     activeElement.focus();
-  });
-}
-
-//open close boxofficemojo
-function boxOfficeMojo() {
-  $('.mojo-btn').click(function() {
-    $('.mojo').prop('hidden', false);
   });
 }
 
@@ -120,6 +167,7 @@ function init() {
   nextVideo();
   prevVideo();
   boxOfficeMojo();
+  showLinks();
 }
 
 $(init);
