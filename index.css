@@ -58,6 +58,16 @@ button:hover,
   text-align: center;
 }
 
+.btn-selection {
+  display: block;
+  padding: 30px 10px 0 10px;
+}
+
+.btn-selection button {
+  width: 250px;
+  text-align: left;
+}
+
 .result {
   margin: 30px;
 }
@@ -79,16 +89,6 @@ img:hover {
 .js-channel {
   display: block;
   font-size: 1rem;
-}
-
-.btn-selection {
-  display: block;
-  padding: 20px;
-}
-
-.btn-selection button {
-  width: 250px;
-  text-align: left;
 }
 
 .centerCol {
