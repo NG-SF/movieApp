@@ -1,5 +1,5 @@
 const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
-const nyTimesUrl = 'http://api.nytimes.com/svc/movies/v2/reviews/search.json';
+
 let title = $('.title');
 let $searchResults = $('.js-search-results');
 let $mojo = $('.mojo');
@@ -24,8 +24,6 @@ function submit() {
     //store entered search parameters
     keyword = $('#search').val();
     $('#search').val(''); // clear out the input field
-
-    console.log(keyword);
     showYouTube();
   });
 }
@@ -85,9 +83,11 @@ function showYouTube() {
 }
 
 // when button clicked shows trailers
-$('.youTube-btn').bind('click keypress', function() {
-  youTubeAll();
-});
+function btnYouTube() {
+  $('.youTube-btn').bind('click keypress', function() {
+    showYouTube();
+  });
+}
 
 //responsible for showing next video results for youTube
 function nextVideo() {
@@ -151,68 +151,13 @@ function videoClick() {
   });
 }
 
-// controls NYTimes btn and displaying results
-function timesReview() {
-  $('.times-btn').on('click', function() {
-    $btn.removeClass('selected');
-    $('.times-btn').addClass('selected');
-    $('$mojo, $youTube').prop('hidden', true);
-    title.text('New York Times Movie Review');
-    let url =
-      nyTimesUrl +
-      '?' +
-      $.param({
-        'api-key': 'ac6d2fc1eccd48968269726ccb92d3c7'
-      });
-
-    $.ajax({
-      url: url,
-      method: 'GET',
-      data: {
-        query: `${keyword}`
-      }
-    })
-      .done(displayNYTimesData)
-      .fail(function(err) {
-        throw err;
-      });
-  });
-}
-
-function displayNYTimesData(json) {
-  console.log(json, json.results.length);
-
-  const results = json.results.map((item, index) => {
-    return `<div class='result'>
-      <h3>${item.display_title}</h3>
-      <p>${item.publication_date}</p>
-      <p>${item.headline}</p>
-      <p>${item.summary_short}</p>
-      <a class="js-result-link" href="${item.link.url}" target="_blank">Read full article</a>
-    </div>`;
-  });
-  // <img src="${item.multimedia.src}" alt="image for ${item.display_title}">
-  if (json.results.length === 0) {
-    $youTube.prop('hidden', false);
-    $searchResults.prop('hidden', false).empty();
-    title.text('Sorry, nothing was found');
-  } else {
-    $youTube.prop('hidden', false);
-    $searchResults
-      .prop('hidden', false)
-      .empty()
-      .html(results)
-      .append(json.copyright);
-  }
-}
-
 function init() {
   submit();
+  btnYouTube();
   nextVideo();
   prevVideo();
   boxOfficeMojo();
   showLinks();
-  timesReview();
 }
 
 $(init);
