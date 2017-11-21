@@ -8,23 +8,21 @@
     <title>Movie app</title>
   </head>
   <body>
-   <!-- <div class="container"> -->
 
   <div class="row">
     <div class="col-4">
         <div class="btn-selection">
-          <button type="button" name="button" class="js-btn youTubeAll-btn">You tube: trailers</button>
-          <button type="button" name="button" class="js-btn youTube-btn">You tube: What the Flick</button>
-          <button type="button" name="button" class="js-btn NY-btn">NY Times Movie Reviews</button>
-          <button type="button" name="button" class="js-btn movieDB-btn">The Movie DB</button>
-          <button type="button" name="button" class="js-btn mojo-btn">Box Office Mojo</button>
-          <button type="button" name="button" class="js-btn links-btn">Other resourses</button>
+          <button  class="js-btn youTube-btn">You tube</button>
+          <button  class="js-btn times-btn">NY Times Movie Reviews</button>
+          <button  class="js-btn movieDB-btn">The Movie DB</button>
+          <button  class="js-btn mojo-btn">Box Office Mojo</button>
+          <button  class="js-btn links-btn">Other links</button>
         </div><!-- end btn-selection -->
       </div><!-- end col-4 -->
 
     <div class="col-8">
         <section role="region">
-           <h1>Movie night planning app</h1>
+           <h1>Movie-night planning app</h1>
            <p>Search by movie title to get reviews, trailers, and more details about the movie.</p>
            <p>Begin by entering name of the movie in a search box or check out top grossing movies of the weekend by selecting Box Office Mojo</p>
            <form action="#" class="js-search-form">
@@ -37,17 +35,17 @@
    </div><!-- end row 1 -->
 
   <div class="row">
-    <div class="col-4 empty"></div>
-    <div class="col-6 centerCol">
-       <section role='region' class="output" hidden="true">
+    <div class="col-12 centerCol">
+      <h2 class="title" role="none"></h2>
+
+       <section role='region' class="outputYouTube" hidden="true">
           <div class="btn-group">
              <button type="submit" class="js-btn-prev">Previous</button>
              <button type="submit" class="js-btn-next">Next</button>
            </div>
-           <div class="js-search-results" aria-live="assertive" hidden>
-              <h2 class="title"></h2>
-           </div>
          </section><!-- end output -->
+
+         <div class="js-search-results" aria-live="assertive" hidden></div>
 
          <section role='region' class="mojo" hidden="true" aria-live="assertive">
            <h2>This Weekend top 5 movies</h2>
@@ -57,19 +55,17 @@
 
          <section role='region' class="js-links" hidden="true">
           <h2>Useful links</h2>
+          <p>Sites I visit to find movie inspiration. Since they don't provide public APIs, I just have to go there directly. It is still useful to have these links in one place.</p>
           <ul>
-            <li><a href="http://www.imdb.com/" target="_blank">Go to IMDB</a></li>
+            <li><a href="http://www.imdb.com/" target="_blank">IMDB</a></li>
             <li><a href="https://www.rottentomatoes.com/" target="_blank">Rotten Tomatoes</a> </li>
             <li><a href="https://www.amazon.com/b/ref=lp_2858778011_sd_allcat_aiv?rh=i%3Ainstant-video%2Cn%3A2858778011&ie=UTF8&node=2858778011" target="_blank">Amazon Video</a></li>
             <li><a href="https://www.cinemark.com/theatre-467" target="_blank">Cinemark</a> </li>
             <li><a href="https://www.fandango.com/amc-metreon-16-aanem/theater-page" target="_blank">AMC Metreon</a> </li>
           </ul>
          </section>
-      </div><!-- end col-6 -->
-      <div class="col-4 empty"></div>
+      </div><!-- end col-12 -->
     </div><!-- end of row 2 -->
-
-   <!-- </div> end of container -->
 
 
  <div class="lightbox hidden" hidden="true">

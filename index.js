@@ -1,17 +1,61 @@
 const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
+const nyTimesUrl = 'http://api.nytimes.com/svc/movies/v2/reviews/search.json';
 let title = $('.title');
+let $searchResults = $('.js-search-results');
+let $mojo = $('.mojo');
+let $btn = $('.js-btn');
+let $youTube = $('.outputYouTube');
 let nextPage;
 let prevPage;
-let query;
+let keyword;
 
-// channelId: 'UCwTcFaOYFjIbxHjrmP0ptxw',
+// for youtube
 let query_string = {
-  part: 'snippet',
   key: 'AIzaSyCO8RyYtOZdiagQfhfTzOC45IfbDQ0ovnc',
-  maxResults: '1'
+  part: 'snippet',
+  maxResults: '3'
 };
 
-function displaySearchData(json) {
+//responsible for saving search parameters and showing first results
+function submit() {
+  $('.js-search-form').submit(event => {
+    //stop default form submittion
+    event.preventDefault();
+    //store entered search parameters
+    keyword = $('#search').val();
+    $('#search').val(''); // clear out the input field
+
+    console.log(keyword);
+    showYouTube();
+  });
+}
+
+//open close boxofficemojo
+function boxOfficeMojo() {
+  $('.mojo-btn').click(function() {
+    $searchResults.empty();
+    $('.js-links, .output').prop('hidden', true);
+    $mojo.prop('hidden', false);
+    $btn.removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+  });
+}
+
+//open close additional resourses
+function showLinks() {
+  $('.links-btn').bind('click keypress', function() {
+    $searchResults.empty();
+    $mojo.prop('hidden', true);
+    $btn.removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+    $('.js-links').prop('hidden', false);
+  });
+}
+
+//first to appear when search is submitted
+function displayYouTubeData(json) {
   console.log(json);
   nextPage = json.nextPageToken;
   prevPage = json.prevPageToken;
@@ -22,97 +66,42 @@ function displaySearchData(json) {
       <img class='js-img' src='${item.snippet.thumbnails.medium.url}'></a>
     </div>`;
   });
-  $('.output').prop('hidden', false);
-  $('.js-search-results')
+  $youTube.prop('hidden', false);
+  $searchResults
     .prop('hidden', false)
     .empty()
     .html(results);
   videoClick();
 }
 
-//responsible for saving search parameters and showing first results
-function submit() {
-  $('.js-search-form').submit(event => {
-    event.preventDefault();
-
-    query = $('#search').val();
-    console.log(query);
-    $('#search').val(''); // clear out the input field
-
-    //check if user entered search parameters
-    //if fiels is empty ask for input
-    if (query === '' || query === undefined) {
-      $('.js-search-results').html(`<p>Please enter what you want to search for</p>`);
-    } else {
-      youTubeAll();
-    }
-  });
-}
-
-function youTube() {
-  $('.youTube-btn').bind('click keypress', function() {
-    $('.btn').removeClass('selected');
-    $('.youTube-btn').addClass('selected');
-    $('.mojo').prop('hidden', true);
-    title.text('Movie review from What the Flick YouTube channel');
-    query_string.q = `What the Flick ${query} Official Movie Review`;
-    $.getJSON(youTubeUrl, query_string, displaySearchData);
-  });
-}
-
 //shows trailers
-function youTubeAll() {
-  $('.js-btn').removeClass('selected');
-  $('.youTubeAll-btn').addClass('selected');
-  $('.mojo').prop('hidden', true);
+function showYouTube() {
+  $btn.removeClass('selected');
+  $('.youTube-btn').addClass('selected');
+  $mojo.prop('hidden', true);
   title.text('Movie trailers');
-  query_string.q = `${query} Official Movie trailer`;
-  query_string.maxResults = '5';
-  $.getJSON(youTubeUrl, query_string, displaySearchData);
+  query_string.q = `${keyword} Official`;
+  $.getJSON(youTubeUrl, query_string, displayYouTubeData);
 }
 
 // when button clicked shows trailers
-$('.youTubeAll-btn').bind('click keypress', function() {
+$('.youTube-btn').bind('click keypress', function() {
   youTubeAll();
 });
 
-//open close boxofficemojo
-function boxOfficeMojo() {
-  $('.mojo-btn').click(function() {
-    $('.js-search-results').empty();
-    $('.js-links').prop('hidden', true);
-    $('.mojo').prop('hidden', false);
-    title.text('This weekend top 5 movies:');
-    $('.js-btn').removeClass('selected');
-    let btn = $(this);
-    btn.addClass('selected');
-  });
-}
-
-function showLinks() {
-  $('.links-btn').bind('click keypress', function() {
-    $('.js-search-results').empty();
-    $('.mojo').prop('hidden', true);
-    $('.js-btn').removeClass('selected');
-    let btn = $(this);
-    btn.addClass('selected');
-    $('.js-links').prop('hidden', false);
-  });
-}
-
-//responsible for showing next video results
+//responsible for showing next video results for youTube
 function nextVideo() {
   $('.js-btn-next').on('click', function() {
     query_string.pageToken = nextPage;
-    $.getJSON(youTubeUrl, query_string, displaySearchData);
+    $.getJSON(youTubeUrl, query_string, displayYouTubeData);
   });
 }
 
-//responsible for showing previous video results
+//responsible for showing previous video results for youTube
 function prevVideo() {
   $('.js-btn-prev').on('click', function() {
     query_string.pageToken = prevPage;
-    $.getJSON(youTubeUrl, query_string, displaySearchData);
+    $.getJSON(youTubeUrl, query_string, displayYouTubeData);
   });
 }
 
@@ -162,12 +151,68 @@ function videoClick() {
   });
 }
 
+// controls NYTimes btn and displaying results
+function timesReview() {
+  $('.times-btn').on('click', function() {
+    $btn.removeClass('selected');
+    $('.times-btn').addClass('selected');
+    $('$mojo, $youTube').prop('hidden', true);
+    title.text('New York Times Movie Review');
+    let url =
+      nyTimesUrl +
+      '?' +
+      $.param({
+        'api-key': 'ac6d2fc1eccd48968269726ccb92d3c7'
+      });
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      data: {
+        query: `${keyword}`
+      }
+    })
+      .done(displayNYTimesData)
+      .fail(function(err) {
+        throw err;
+      });
+  });
+}
+
+function displayNYTimesData(json) {
+  console.log(json, json.results.length);
+
+  const results = json.results.map((item, index) => {
+    return `<div class='result'>
+      <h3>${item.display_title}</h3>
+      <p>${item.publication_date}</p>
+      <p>${item.headline}</p>
+      <p>${item.summary_short}</p>
+      <a class="js-result-link" href="${item.link.url}" target="_blank">Read full article</a>
+    </div>`;
+  });
+  // <img src="${item.multimedia.src}" alt="image for ${item.display_title}">
+  if (json.results.length === 0) {
+    $youTube.prop('hidden', false);
+    $searchResults.prop('hidden', false).empty();
+    title.text('Sorry, nothing was found');
+  } else {
+    $youTube.prop('hidden', false);
+    $searchResults
+      .prop('hidden', false)
+      .empty()
+      .html(results)
+      .append(json.copyright);
+  }
+}
+
 function init() {
   submit();
   nextVideo();
   prevVideo();
   boxOfficeMojo();
   showLinks();
+  timesReview();
 }
 
 $(init);
