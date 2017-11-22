@@ -158,20 +158,29 @@ function showMovieDB() {
     crossDomain: true,
     url: 'https://api.themoviedb.org/3/search/movie',
     method: 'GET',
+    // dataType: 'jasonp',
     data: {
       api_key: '1c120a2d8083e4d23e0041d9c85797fe',
       language: 'en-US',
+      // callback: 'test',
       query: 'Thor'
     }
   };
-  $.ajax(settings)
-    .done(displayMovieDBdata)
-    .fail(function(xhr, status, errorThrown) {
-      // alert('Sorry, there was a problem!');
-      console.log('Error: ' + errorThrown);
-      console.log('Status: ' + status);
-      console.dir(xhr);
-    });
+  $('.movieDB-btn').bind('click keypress', function() {
+    $searchResults.empty().prop('hidden', false);
+    $mojo.prop('hidden', true);
+    $btn.removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+    $.ajax(settings)
+      .done(displayMovieDBdata)
+      .fail(function(xhr, status, errorThrown) {
+        // alert('Sorry, there was a problem!');
+        console.log('Error: ' + errorThrown);
+        console.log('Status: ' + status);
+        console.dir(xhr);
+      });
+  });
 }
 
 function displayMovieDBdata(json) {
