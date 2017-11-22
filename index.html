@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="app for searching movies by using YouTube and movieDB APIs">
+    <meta name="author" content="Nataliya Gapochka">
     <link rel="stylesheet" href="grid.css">
     <link rel="stylesheet" href="index.css">
     <title>Movie app</title>
@@ -23,9 +25,9 @@
 
     <div class="col-8">
         <section role="region">
-           <h1>Movie-night planning app</h1>
-           <p>Search by movie title to get reviews, trailers, and more details about the movie.</p>
-           <p>Begin by entering name of the movie in a search box or check out top grossing movies of the weekend by selecting Box Office Mojo</p>
+           <h1><span class="titleMain">Movie-night</span> planning app</h1>
+           <p>This app was created to make the process of choosing the movie easier. Begin by entering title of the movie in a search box. Trailers for that movie will be displayed first. The Movie DB will display more detailes about the movie.</p>
+           <p>If you don't know the title of the movie, you can start by checking out Box Office Mojo or Other links for more inspiration.  Enjoy!</p>
            <form action="#" class="js-search-form">
              <label for="search">Start searching:</label>
              <input type="text" id='search' class="js-query" autofocus required>
@@ -52,6 +54,7 @@
            <h2>This Weekend top 5 movies</h2>
            <script type="text/javascript" language="javascript" src="http://www.boxofficemojo.com/data/js/wknd5.php?h=myclass1&r=myclass2">
            </script>
+
          </section><!-- end mojo -->
 
          <section role='region' class="js-links" hidden="true">
