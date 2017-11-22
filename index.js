@@ -1,19 +1,24 @@
-const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
-const nyTimesUrl = 'http://api.nytimes.com/svc/movies/v2/reviews/search.json';
-let title = $('.title');
+let $title = $('.title');
 let $searchResults = $('.js-search-results');
 let $mojo = $('.mojo');
 let $btn = $('.js-btn');
 let $youTube = $('.outputYouTube');
-let nextPage;
-let prevPage;
+let $links = $('.js-links');
+
+//holds entered search parameters to be accessed by:
+// showYouTube and showMovieDB functions
 let keyword;
 
-// for youtube
+// variables for youtube
+// have to be in global scope for other functions to work:
+// showYouTube, nextVideo, prevVideo
+let nextPage;
+let prevPage;
+const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
 let query_string = {
   key: 'AIzaSyCO8RyYtOZdiagQfhfTzOC45IfbDQ0ovnc',
   part: 'snippet',
-  maxResults: '3'
+  maxResults: '5'
 };
 
 //responsible for saving search parameters and showing first results
@@ -21,11 +26,13 @@ function submit() {
   $('.js-search-form').submit(event => {
     //stop default form submittion
     event.preventDefault();
+
     //store entered search parameters
     keyword = $('#search').val();
+
     $('#search').val(''); // clear out the input field
 
-    console.log(keyword);
+    //display YouTube results by default
     showYouTube();
   });
 }
@@ -33,9 +40,13 @@ function submit() {
 //open close boxofficemojo
 function boxOfficeMojo() {
   $('.mojo-btn').click(function() {
+    //hide other results
     $searchResults.empty();
-    $('.js-links, .output').prop('hidden', true);
+    $title.empty();
+    $links.prop('hidden', true);
     $mojo.prop('hidden', false);
+
+    //highlight the selected btn
     $btn.removeClass('selected');
     let btn = $(this);
     btn.addClass('selected');
@@ -45,49 +56,70 @@ function boxOfficeMojo() {
 //open close additional resourses
 function showLinks() {
   $('.links-btn').bind('click keypress', function() {
+    //hide other results
     $searchResults.empty();
+    $title.empty();
     $mojo.prop('hidden', true);
+    $links.prop('hidden', false);
+
+    //highlight the selected btn
     $btn.removeClass('selected');
     let btn = $(this);
     btn.addClass('selected');
-    $('.js-links').prop('hidden', false);
   });
 }
 
 //first to appear when search is submitted
 function displayYouTubeData(json) {
-  console.log(json);
+  // console.log(json);
   nextPage = json.nextPageToken;
   prevPage = json.prevPageToken;
   const results = json.items.map((item, index) => {
     return `<div class='result'>
       <h3>${item.snippet.title}</h3>
       <a class="js-result-link" data-videoId="${item.id.videoId}">
-      <img class='js-img' src='${item.snippet.thumbnails.medium.url}'></a>
+      <img class='youTube-img' src='${item.snippet.thumbnails.medium.url}'></a>
     </div>`;
   });
+
+  //display results on page
   $youTube.prop('hidden', false);
   $searchResults
     .prop('hidden', false)
     .empty()
     .html(results);
+
+  //function to display videos in lightbox
   videoClick();
 }
 
 //shows trailers
 function showYouTube() {
+  //hide other results
+  $mojo.prop('hidden', true);
+  $links.prop('hidden', true);
+
+  //highlight the selected btn
   $btn.removeClass('selected');
   $('.youTube-btn').addClass('selected');
-  $mojo.prop('hidden', true);
-  title.text('Movie trailers');
+
+  $title.text('YouTube search results:');
   query_string.q = `${keyword} Official`;
-  $.getJSON(youTubeUrl, query_string, displayYouTubeData);
+
+  //make sure user entered search text
+  if (keyword === '' || keyword === undefined) {
+    $title.text('Please enter movie title');
+  } else {
+    $.getJSON(youTubeUrl, query_string, displayYouTubeData);
+  }
 }
 
 // when button clicked shows trailers
-$('.youTube-btn').bind('click keypress', function() {
-  youTubeAll();
-});
+function btnYouTube() {
+  $('.youTube-btn').bind('click keypress', function() {
+    showYouTube();
+  });
+}
 
 //responsible for showing next video results for youTube
 function nextVideo() {
@@ -105,6 +137,7 @@ function prevVideo() {
   });
 }
 
+// functions that control lightbox for youTube videos
 function showLightbox() {
   $('.lightbox')
     .removeClass('hidden')
@@ -151,68 +184,93 @@ function videoClick() {
   });
 }
 
-// controls NYTimes btn and displaying results
-function timesReview() {
-  $('.times-btn').on('click', function() {
-    $btn.removeClass('selected');
-    $('.times-btn').addClass('selected');
-    $('$mojo, $youTube').prop('hidden', true);
-    title.text('New York Times Movie Review');
-    let url =
-      nyTimesUrl +
-      '?' +
-      $.param({
-        'api-key': 'ac6d2fc1eccd48968269726ccb92d3c7'
-      });
-
-    $.ajax({
-      url: url,
+//display Movie DB results
+function showMovieDB() {
+  $('.movieDB-btn').bind('click keypress', function() {
+    const settings = {
+      async: true,
+      crossDomain: true,
+      url: 'https://api.themoviedb.org/3/search/movie',
       method: 'GET',
       data: {
-        query: `${keyword}`
+        api_key: '1c120a2d8083e4d23e0041d9c85797fe',
+        language: 'en-US',
+        query: keyword
       }
-    })
-      .done(displayNYTimesData)
-      .fail(function(err) {
-        throw err;
-      });
+    };
+    //hide other results
+    $mojo.prop('hidden', true);
+    $links.prop('hidden', true);
+    $youTube.prop('hidden', true);
+    $title.empty();
+
+    //highlight the selected btn
+    $btn.removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+
+    //make sure user entered search text
+    if (keyword === '' || keyword === undefined) {
+      $title.text('Please enter movie title');
+    } else {
+      $.ajax(settings)
+        .done(displayMovieDBdata)
+        .fail(function(xhr, status, errorThrown) {
+          // alert('Sorry, there was a problem!');
+          console.log('Error: ' + errorThrown);
+          console.log('Status: ' + status);
+          console.dir(xhr);
+        });
+    }
   });
 }
 
-function displayNYTimesData(json) {
-  console.log(json, json.results.length);
+function displayMovieDBdata(json) {
+  // console.log(json);
+  // set counter to limit results that are displayed
+  let counter = 0;
 
-  const results = json.results.map((item, index) => {
-    return `<div class='result'>
-      <h3>${item.display_title}</h3>
-      <p>${item.publication_date}</p>
-      <p>${item.headline}</p>
-      <p>${item.summary_short}</p>
-      <a class="js-result-link" href="${item.link.url}" target="_blank">Read full article</a>
-    </div>`;
+  const output = json.results.map((item, index) => {
+    counter++;
+    if (counter <= 5) {
+      return `<div class='result'>
+      <h2>${item.original_title}</h2>
+      <img class='movieDB-img' src="https://image.tmdb.org/t/p/original/${item.poster_path}" width="300"  alt="image for ${item.original_title}">
+      <p>Release date: ${item.release_date}</p>
+      <p>Total votes: ${item.vote_count}  Average vote: ${item.vote_average}</p>
+      <p>${item.overview}</p>
+      </div>`;
+    }
+  }); // end of output
+
+  $searchResults
+    .prop('hidden', false)
+    .empty()
+    .html(output);
+}
+
+//responsible for resetting search and clearing output field
+function startOver() {
+  $('.startOver-btn').bind('click keypress', function() {
+    keyword = '';
+    $btn.removeClass('selected');
+    $mojo.prop('hidden', true);
+    $links.prop('hidden', true);
+    $youTube.prop('hidden', true);
+    $title.empty();
+    $searchResults.prop('hidden', true).empty();
   });
-  // <img src="${item.multimedia.src}" alt="image for ${item.display_title}">
-  if (json.results.length === 0) {
-    $youTube.prop('hidden', false);
-    $searchResults.prop('hidden', false).empty();
-    title.text('Sorry, nothing was found');
-  } else {
-    $youTube.prop('hidden', false);
-    $searchResults
-      .prop('hidden', false)
-      .empty()
-      .html(results)
-      .append(json.copyright);
-  }
 }
 
 function init() {
   submit();
+  btnYouTube();
   nextVideo();
   prevVideo();
   boxOfficeMojo();
   showLinks();
-  timesReview();
+  showMovieDB();
+  startOver();
 }
 
 $(init);

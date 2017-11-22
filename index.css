@@ -3,17 +3,21 @@
 }
 
 body {
-  background: snow;
+  background: #f2f2f2;
   font-family: Helvetica, sans-serif;
   letter-spacing: 1px;
-  color: #3d5c5c;
+  color: #551700;
   line-height: 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
-/* Styles for search area and buttons*/
-h1 {
-  font-size: 2.6rem;
-  text-align: center;
+/* Styles headings*/
+.titleMain {
+  color: #e62e00;
+  display: block;
+  margin-bottom: 30px;
+  font-size: 3.3rem;
 }
 
 h2 {
@@ -22,12 +26,19 @@ h2 {
   text-align: center;
 }
 
+/* Styles for input and buttons*/
+h1 {
+  font-size: 2.8rem;
+  word-break: break-all;
+  text-align: center;
+}
+
 input {
   width: 63%;
   height: 41px;
   font-size: 0.9rem;
-  background-color: #c2d6d6;
-  border: 1px solid #94b8b8;
+  background-color: #fff0e6;
+  border: 2px solid #e62e00;
   padding: 10px;
 }
 
@@ -35,8 +46,8 @@ input:focus,
 input:active,
 input:checked,
 input:-webkit-autofill {
-  background-color: #c2d6d6;
-  -webkit-box-shadow: 0 0 0px 1000px #c2d6d6 inset;
+  background-color: #fff0e6;
+  -webkit-box-shadow: 0 0 0px 1000px #fff0e6 inset;
 }
 
 button {
@@ -44,14 +55,25 @@ button {
   font-size: 1rem;
   font-weight: bold;
   vertical-align: bottom;
-  background-color: #c2d6d6;
-  border: 1px solid #94b8b8;
+  background-color: #404040;
+  border: 1px solid #660066;
+  color: white;
   margin: 1px;
+}
+
+.startOver-btn {
+  display: block;
+  margin: 20px auto;
+  color: #e62e00;
+  background-color: #fff0e6;
+  border: 1px solid #fff0e6;
 }
 
 button:hover,
 .selected {
-  background-color: #5c8a8a;
+  background-color: #fff0e6;
+  color: #404040;
+  border: 1px solid #fff0e6;
 }
 
 .btn-group {
@@ -60,14 +82,15 @@ button:hover,
 
 .btn-selection {
   display: block;
-  padding: 30px 10px 0 10px;
+  padding: 10px;
 }
 
 .btn-selection button {
-  width: 250px;
+  width: 100%;
   text-align: left;
 }
 
+/* Styles for YouTube output*/
 .result {
   margin: 30px;
 }
@@ -77,36 +100,49 @@ a {
   color: black;
 }
 
-a img {
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a .youTube-img {
   border: 1px solid transparent;
   text-align: center;
 }
 
-img:hover {
+.youTube-img:hover {
   border: 1px solid #5c8a8a;
   cursor: pointer;
 }
-.js-channel {
-  display: block;
-  font-size: 1rem;
-}
 
+/* General styles for output area*/
 .centerCol {
   margin: 0 auto;
   float: none;
   display: block;
-  padding-left: 270px;
-  padding-bottom: 20px;
-  width: 100%;
+  padding-bottom: 5px;
+  padding-top: 50px;
+  width: 80%;
 }
 
 .centerCol h2 {
-  text-align: left;
-  padding-left: 10%;
+  text-align: center;
 }
 
 .output {
   margin-top: 40px;
+}
+
+.mojo {
+  padding-left: 20%;
+  padding-bottom: 20px;
+}
+
+.movieDB-img,
+.youTube-img,
+.logo-img {
+  display: block;
+  margin: 0 auto;
 }
 
 /*Styles for lightbox*/
@@ -120,7 +156,6 @@ img:hover {
   background-color: snow;
   z-index: 100;
   transform: translate(-50%, -50%);
-  box-shadow: 6px 6px 60px -16px rgba(0, 0, 0, 0.76);
   transition: all 0.5s;
   opacity: 1;
   overflow: auto;
@@ -159,26 +194,40 @@ iframe {
   top: -100%;
 }
 
+/* Responsive styles*/
 @media screen and (max-width: 425px) {
   h1 {
-    margin: 5px;
-    font-size: 1.9rem;
+    margin-top: 30px;
+    font-size: 1.8rem;
   }
 
   h2 {
     font-size: 1.3rem;
   }
 
+  .titleMain {
+    margin-bottom: 15px;
+    font-size: 2.5rem;
+  }
+
+  label {
+    display: block;
+  }
+
   input {
-    width: 55%;
+    width: 75%;
   }
 
   button {
     padding: 11px;
   }
 
+  .btn-selection button {
+    text-align: center;
+  }
+
   iframe,
-  img {
+  .youTube-img {
     width: 272px;
     height: 204px;
   }
@@ -193,9 +242,23 @@ iframe {
   }
 }
 
-@media screen and (max-width: 810px) and (min-width: 426px) {
+@media screen and (max-width: 860px) and (min-width: 426px) {
+  .intro {
+    padding: 40px;
+  }
+
+  .logo-img {
+    width: 150px;
+    height: auto;
+    padding-top: 30px;
+  }
+
+  input {
+    width: 45%;
+  }
+
   iframe,
-  img {
+  .youTube-img {
     width: 368px;
     height: 276px;
   }
