@@ -54,7 +54,7 @@ function showLinks() {
 
 //first to appear when search is submitted
 function displayYouTubeData(json) {
-  console.log(json);
+  // console.log(json);
   nextPage = json.nextPageToken;
   prevPage = json.prevPageToken;
   const results = json.items.map((item, index) => {
@@ -151,6 +151,48 @@ function videoClick() {
   });
 }
 
+//display Movie DB results
+function showMovieDB() {
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://api.themoviedb.org/3/search/movie',
+    method: 'GET',
+    data: {
+      api_key: '1c120a2d8083e4d23e0041d9c85797fe',
+      language: 'en-US',
+      query: 'Thor'
+    }
+  };
+  $.ajax(settings)
+    .done(displayMovieDBdata)
+    .fail(function(xhr, status, errorThrown) {
+      // alert('Sorry, there was a problem!');
+      console.log('Error: ' + errorThrown);
+      console.log('Status: ' + status);
+      console.dir(xhr);
+    });
+}
+
+function displayMovieDBdata(json) {
+  // console.log(json);
+  const output = json.results.map((item, index) => {
+    return `<div class='result'>
+      <h3>${item.original_title}</h3>
+      <img src="https://image.tmdb.org/t/p/original/${item.poster_path}" width="300"  alt="image for ${item.original_title}">
+      <p>Release date: ${item.release_date}</p>
+      <p>Total votes: ${item.vote_count}  Average vote: ${item.vote_average}</p>
+      <p>${item.overview}</p>
+    </div>`;
+  });
+
+  $youTube.prop('hidden', false);
+  $searchResults
+    .prop('hidden', false)
+    .empty()
+    .html(output);
+}
+
 function init() {
   submit();
   btnYouTube();
@@ -158,6 +200,7 @@ function init() {
   prevVideo();
   boxOfficeMojo();
   showLinks();
+  showMovieDB();
 }
 
 $(init);
