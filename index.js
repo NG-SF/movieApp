@@ -257,8 +257,8 @@ function startOver() {
     $mojo.prop('hidden', true);
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
-    $title.empty();
     $searchResults.prop('hidden', true).empty();
+    $title.text('Search results will be displayed below');
   });
 }
 
