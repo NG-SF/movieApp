@@ -7,7 +7,7 @@ body {
   font-family: Helvetica, sans-serif;
   letter-spacing: 1px;
   color: #551700;
-  line-height: 1.5rem;
+  line-height: 1.3rem;
   margin: 0;
   padding: 0;
 }
@@ -20,18 +20,24 @@ body {
   font-size: 3.3rem;
 }
 
-h2 {
-  font-size: 1.8rem;
-  margin-top: 20px;
-  text-align: center;
-}
-
-/* Styles for input and buttons*/
 h1 {
   font-size: 2.8rem;
   word-break: break-all;
   text-align: center;
 }
+
+h2 {
+  font-size: 1.8rem;
+  margin-top: 20px;
+  text-align: center;
+  line-height: inherit;
+}
+
+h3 {
+  text-align: center;
+}
+
+/* Styles for input and buttons*/
 
 input {
   width: 63%;
@@ -143,6 +149,14 @@ a .youTube-img {
   margin: 0 auto;
 }
 
+.js-links {
+  padding-left: 15px;
+}
+
+li {
+  margin: 5px;
+}
+
 /*Styles for lightbox*/
 .lightbox {
   position: fixed;
@@ -194,6 +208,11 @@ iframe {
 
 /* Responsive styles*/
 @media screen and (max-width: 425px) {
+  p {
+    font-size: 0.9rem;
+    line-height: 1.1rem;
+  }
+
   h1 {
     margin-top: 30px;
     font-size: 1.8rem;
@@ -224,6 +243,14 @@ iframe {
   .youTube-img {
     width: 272px;
     height: 204px;
+  }
+
+  .movieDB-img {
+    width: 210px;
+  }
+
+  .centerCol {
+    width: 100%;
   }
 
   .lightbox {
