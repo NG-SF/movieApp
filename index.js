@@ -1,9 +1,10 @@
 let $title = $('.title');
 let $searchResults = $('.js-search-results');
-let $mojo = $('.mojo');
 let $btn = $('.js-btn');
 let $youTube = $('.outputYouTube');
 let $links = $('.js-links');
+let $movieDB = $('.outputMovieDB');
+let $stats = $('.movie-stats');
 
 //holds entered search parameters to be accessed by:
 // showYouTube and showMovieDB functions
@@ -21,6 +22,11 @@ let query_string = {
   maxResults: '5'
 };
 
+//variables for dataMovieDB to display prev next results
+let dataMovieDB;
+let index = 0;
+let oneMovie;
+
 //responsible for saving search parameters and showing first results
 function submit() {
   $('.js-search-form').submit(event => {
@@ -37,29 +43,13 @@ function submit() {
   });
 }
 
-//open close boxofficemojo
-function boxOfficeMojo() {
-  $('.mojo-btn').click(function() {
-    //hide other results
-    $searchResults.empty();
-    $title.empty();
-    $links.prop('hidden', true);
-    $mojo.prop('hidden', false);
-
-    //highlight the selected btn
-    $btn.removeClass('selected');
-    let btn = $(this);
-    btn.addClass('selected');
-  });
-}
-
 //open close additional resourses
 function showLinks() {
   $('.links-btn').bind('click keypress', function() {
     //hide other results
     $searchResults.empty();
     $title.empty();
-    $mojo.prop('hidden', true);
+    $movieDB.prop('hidden', true);
     $links.prop('hidden', false);
 
     //highlight the selected btn
@@ -96,14 +86,14 @@ function displayYouTubeData(json) {
 //shows trailers
 function showYouTube() {
   //hide other results
-  $mojo.prop('hidden', true);
   $links.prop('hidden', true);
+  $movieDB.prop('hidden', true);
 
   //highlight the selected btn
   $btn.removeClass('selected');
   $('.youTube-btn').addClass('selected');
 
-  $title.text('YouTube search results:');
+  $title.text('YouTube search results: 5 per page');
   query_string.q = `${keyword} Official`;
 
   //make sure user entered search text
@@ -114,7 +104,7 @@ function showYouTube() {
   }
 }
 
-// when button clicked shows trailers
+// when button clicked displays trailers
 function btnYouTube() {
   $('.youTube-btn').bind('click keypress', function() {
     showYouTube();
@@ -123,7 +113,7 @@ function btnYouTube() {
 
 //responsible for showing next video results for youTube
 function nextVideo() {
-  $('.js-btn-next').on('click', function() {
+  $('.js-btn-next-YT').on('click', function() {
     query_string.pageToken = nextPage;
     $.getJSON(youTubeUrl, query_string, displayYouTubeData);
   });
@@ -131,7 +121,7 @@ function nextVideo() {
 
 //responsible for showing previous video results for youTube
 function prevVideo() {
-  $('.js-btn-prev').on('click', function() {
+  $('.js-btn-prev-YT').on('click', function() {
     query_string.pageToken = prevPage;
     $.getJSON(youTubeUrl, query_string, displayYouTubeData);
   });
@@ -199,9 +189,10 @@ function showMovieDB() {
       }
     };
     //hide other results
-    $mojo.prop('hidden', true);
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
+    $movieDB.prop('hidden', true);
+    $searchResults.prop('hidden', true);
     $title.empty();
 
     //highlight the selected btn
@@ -213,6 +204,8 @@ function showMovieDB() {
     if (keyword === '' || keyword === undefined) {
       $title.text('Please enter movie title');
     } else {
+      $movieDB.prop('hidden', false);
+
       $.ajax(settings)
         .done(displayMovieDBdata)
         .fail(function(xhr, status, errorThrown) {
@@ -226,27 +219,90 @@ function showMovieDB() {
 }
 
 function displayMovieDBdata(json) {
-  // console.log(json);
-  // set counter to limit results that are displayed
-  let counter = 0;
-
-  const output = json.results.map((item, index) => {
-    counter++;
-    if (counter <= 5) {
-      return `<div class='result'>
+  let output = json.results.map(item => {
+    return `<div class='result'>
       <h2>${item.original_title}</h2>
       <img class='movieDB-img' src="https://image.tmdb.org/t/p/original/${item.poster_path}" width="300"  alt="image for ${item.original_title}">
       <p>Release date: ${item.release_date}</p>
-      <p>Total votes: ${item.vote_count}  Average vote: ${item.vote_average}</p>
+      <p>Total votes: ${item.vote_count}</p>
+      <p>Average vote: ${item.vote_average}</p>
       <p>${item.overview}</p>
       </div>`;
-    }
   }); // end of output
 
+  console.log(json);
+  index = 0;
+  dataMovieDB = output;
+  oneMovie = dataMovieDB[index];
   $searchResults
     .prop('hidden', false)
     .empty()
-    .html(output);
+    .html(oneMovie);
+  stats();
+}
+
+//displays statistics about results for movieDB
+function stats() {
+  $stats.text(`Page: ${index + 1} out of ${dataMovieDB.length}`);
+}
+
+//responsible for showing next results for movieDB
+function nextMovie() {
+  $('.btn-next').on('click', function() {
+    if (index < dataMovieDB.length - 1) {
+      index += 1;
+      oneMovie = dataMovieDB[index];
+      $searchResults.empty().html(oneMovie);
+      stats();
+    }
+  });
+}
+
+//responsible for showing previous results for movieDB
+function prevMovie() {
+  $('.btn-prev').on('click', function() {
+    if (index > 0) {
+      index -= 1;
+      oneMovie = dataMovieDB[index];
+      $searchResults.empty().html(oneMovie);
+      stats();
+    }
+  });
+}
+
+//display Movie DB results by popularity
+function discoverMovieDB() {
+  $('.discoverDB-btn').bind('click keypress', function() {
+    const param = {
+      async: true,
+      crossDomain: true,
+      url: 'https://api.themoviedb.org/3/discover/movie',
+      method: 'GET',
+      data: {
+        api_key: '1c120a2d8083e4d23e0041d9c85797fe',
+        language: 'en-US'
+      }
+    };
+    //hide other results
+    $links.prop('hidden', true);
+    $youTube.prop('hidden', true);
+    $title.empty();
+
+    //highlight the selected btn
+    $btn.removeClass('selected');
+    let btn = $(this);
+    btn.addClass('selected');
+
+    $movieDB.prop('hidden', false);
+    $.ajax(param)
+      .done(displayMovieDBdata)
+      .fail(function(xhr, status, errorThrown) {
+        // alert('Sorry, there was a problem!');
+        console.log('Error: ' + errorThrown);
+        console.log('Status: ' + status);
+        console.dir(xhr);
+      });
+  });
 }
 
 //responsible for resetting search and clearing output field
@@ -254,10 +310,10 @@ function startOver() {
   $('.startOver-btn').bind('click keypress', function() {
     keyword = '';
     $btn.removeClass('selected');
-    $mojo.prop('hidden', true);
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
     $searchResults.prop('hidden', true).empty();
+    $movieDB.prop('hidden', true);
     $title.text('Search results will be displayed below');
   });
 }
@@ -267,9 +323,11 @@ function init() {
   btnYouTube();
   nextVideo();
   prevVideo();
-  boxOfficeMojo();
   showLinks();
   showMovieDB();
+  discoverMovieDB();
+  nextMovie();
+  prevMovie();
   startOver();
 }
 
