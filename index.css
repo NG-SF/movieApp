@@ -70,9 +70,13 @@ button {
 .startOver-btn {
   display: block;
   margin: 20px auto;
-  color: #e62e00;
-  background-color: #fff0e6;
   border: 1px solid #fff0e6;
+}
+
+.startOver-btn:hover,
+.close-btn:hover {
+  color: snow;
+  background-color: #e62e00;
 }
 
 button:hover,
@@ -137,9 +141,8 @@ a .youTube-img {
   text-align: center;
 }
 
-.mojo {
-  padding-left: 20%;
-  padding-bottom: 20px;
+.bold {
+  font-weight: bold;
 }
 
 .movieDB-img,
@@ -175,20 +178,22 @@ li {
 
 .video {
   text-align: center;
-  background-color: #eff5f5;
+  background-color: #fff0e6;
   height: 100%;
   margin: 0;
   padding: 5px;
 }
 
 iframe {
-  height: 85%;
-  width: 85%;
+  margin-top: 55px;
+  height: 70%;
+  width: 70%;
   border: none;
 }
 
 .close-btn {
-  margin: 15px 0;
+  display: block;
+  margin: 10px auto;
 }
 
 .overlay {
@@ -241,8 +246,11 @@ iframe {
 
   iframe,
   .youTube-img {
-    width: 272px;
-    height: 204px;
+    width: 220px;
+  }
+
+  iframe {
+    margin-top: 10px;
   }
 
   .movieDB-img {
@@ -278,9 +286,12 @@ iframe {
     width: 45%;
   }
 
+  iframe {
+    margin-top: 15px;
+  }
+
   iframe,
   .youTube-img {
-    width: 368px;
-    height: 276px;
+    width: 350px;
   }
 }

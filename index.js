@@ -48,7 +48,7 @@ function showLinks() {
   $('.links-btn').bind('click keypress', function() {
     //hide other results
     $searchResults.empty();
-    $title.empty();
+    $title.text('Useful links');
     $movieDB.prop('hidden', true);
     $links.prop('hidden', false);
 
@@ -68,7 +68,7 @@ function displayYouTubeData(json) {
     return `<div class='result'>
       <h3>${item.snippet.title}</h3>
       <a class="js-result-link" data-videoId="${item.id.videoId}">
-      <img class='youTube-img' src='${item.snippet.thumbnails.medium.url}'></a>
+      <img class='youTube-img' src='${item.snippet.thumbnails.medium.url}' alt='${item.snippet.title}'></a>
     </div>`;
   });
 
@@ -205,7 +205,7 @@ function showMovieDB() {
       $title.text('Please enter movie title');
     } else {
       $movieDB.prop('hidden', false);
-
+      $title.text('Movie DB results');
       $.ajax(settings)
         .done(displayMovieDBdata)
         .fail(function(xhr, status, errorThrown) {
@@ -223,9 +223,9 @@ function displayMovieDBdata(json) {
     return `<div class='result'>
       <h2>${item.original_title}</h2>
       <img class='movieDB-img' src="https://image.tmdb.org/t/p/original/${item.poster_path}" width="300"  alt="image for ${item.original_title}">
-      <p>Release date: ${item.release_date}</p>
-      <p>Total votes: ${item.vote_count}</p>
-      <p>Average vote: ${item.vote_average}</p>
+      <p><span class='bold'>Release date:</span> ${item.release_date}</p>
+      <p><span class='bold'>Total votes:</span> ${item.vote_count}</p>
+      <p><span class='bold'>Average vote:</span> ${item.vote_average}</p>
       <p>${item.overview}</p>
       </div>`;
   }); // end of output
@@ -286,7 +286,7 @@ function discoverMovieDB() {
     //hide other results
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
-    $title.empty();
+    $title.text('Popular movies on Movie DB');
 
     //highlight the selected btn
     $btn.removeClass('selected');
