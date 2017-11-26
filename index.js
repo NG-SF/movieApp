@@ -19,7 +19,7 @@ const youTubeUrl = 'https://www.googleapis.com/youtube/v3/search';
 let query_string = {
   key: 'AIzaSyCO8RyYtOZdiagQfhfTzOC45IfbDQ0ovnc',
   part: 'snippet',
-  maxResults: '5'
+  maxResults: '3'
 };
 
 //variables for dataMovieDB to display prev next results
@@ -38,7 +38,7 @@ function submit() {
 
     $('#search').val(''); // clear out the input field
 
-    //display YouTube results by default
+    //display YouTube results first
     showYouTube();
   });
 }
@@ -59,7 +59,7 @@ function showLinks() {
   });
 }
 
-//first to appear when search is submitted
+//generates YouTube data
 function displayYouTubeData(json) {
   // console.log(json);
   nextPage = json.nextPageToken;
@@ -67,7 +67,7 @@ function displayYouTubeData(json) {
   const results = json.items.map((item, index) => {
     return `<div class='result'>
       <h3>${item.snippet.title}</h3>
-      <a class="js-result-link" data-videoId="${item.id.videoId}">
+      <a class="js-result-link" data-title='${item.snippet.title}' data-videoId="${item.id.videoId}">
       <img class='youTube-img' src='${item.snippet.thumbnails.medium.url}' alt='${item.snippet.title}'></a>
     </div>`;
   });
@@ -79,21 +79,22 @@ function displayYouTubeData(json) {
     .empty()
     .html(results);
 
-  //function to display videos in lightbox
+  //function to display YouTube videos in a lightbox
   videoClick();
 }
 
-//shows trailers
+//displays YouTube data on page
 function showYouTube() {
   //hide other results
   $links.prop('hidden', true);
   $movieDB.prop('hidden', true);
+  $searchResults.empty();
 
   //highlight the selected btn
   $btn.removeClass('selected');
   $('.youTube-btn').addClass('selected');
 
-  $title.text('YouTube search results: 5 per page');
+  $title.text('YouTube search results: 3 per page');
   query_string.q = `${keyword} Official`;
 
   //make sure user entered search text
@@ -104,7 +105,7 @@ function showYouTube() {
   }
 }
 
-// when button clicked displays trailers
+//when btn clicked displays YouTube data on page
 function btnYouTube() {
   $('.youTube-btn').bind('click keypress', function() {
     showYouTube();
@@ -127,7 +128,7 @@ function prevVideo() {
   });
 }
 
-// functions that control lightbox for youTube videos
+// functions that controls a lightbox for youTube videos
 function showLightbox() {
   $('.lightbox')
     .removeClass('hidden')
@@ -226,11 +227,11 @@ function displayMovieDBdata(json) {
       <p><span class='bold'>Release date:</span> ${item.release_date}</p>
       <p><span class='bold'>Total votes:</span> ${item.vote_count}</p>
       <p><span class='bold'>Average vote:</span> ${item.vote_average}</p>
-      <p>${item.overview}</p>
+      <p><span class='bold'>Description:</span>  ${item.overview}</p>
+      <a href="https://www.themoviedb.org/" target='_blank'>Go to The Movie Database site</a>
       </div>`;
   }); // end of output
 
-  console.log(json);
   index = 0;
   dataMovieDB = output;
   oneMovie = dataMovieDB[index];
@@ -239,6 +240,10 @@ function displayMovieDBdata(json) {
     .empty()
     .html(oneMovie);
   stats();
+  if (output.length === 0) {
+    $title.text('Sorry nothing was found :(');
+    $movieDB.prop('hidden', true);
+  }
 }
 
 //displays statistics about results for movieDB
