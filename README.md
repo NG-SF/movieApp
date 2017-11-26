@@ -7,4 +7,4 @@ It uses YouTube and Movie DB APIs to retrieve information.
 
 # Screenshots
 
-https://github.com/NG-SF/movieApp/tree/master/screenshots
+![alt text](/screenshots/movieNightScreen1.png) ![alt text](/screenshots/movieNightScreen2.png)
