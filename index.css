@@ -83,6 +83,7 @@ button {
 .close-btn:hover {
   color: snow;
   background-color: #e62e00;
+  cursor: pointer;
 }
 
 button:hover,
@@ -90,6 +91,7 @@ button:hover,
   background-color: #fff0e6;
   color: #404040;
   border: 1px solid #fff0e6;
+  cursor: pointer;
 }
 
 .btn-group {

@@ -5,6 +5,7 @@ let $youTube = $('.outputYouTube');
 let $links = $('.js-links');
 let $movieDB = $('.outputMovieDB');
 let $stats = $('.movie-stats');
+let $form = $('.js-search-form');
 
 //holds entered search parameters to be accessed by:
 // showYouTube and showMovieDB functions
@@ -29,7 +30,7 @@ let oneMovie;
 
 //responsible for saving search parameters and showing first results
 function submit() {
-  $('.js-search-form').submit(event => {
+  $form.submit(event => {
     //stop default form submittion
     event.preventDefault();
 
@@ -50,6 +51,7 @@ function showLinks() {
     $searchResults.empty();
     $title.text('Useful links');
     $movieDB.prop('hidden', true);
+    $form.hide();
     $links.prop('hidden', false);
 
     //highlight the selected btn
@@ -108,6 +110,7 @@ function showYouTube() {
 //when btn clicked displays YouTube data on page
 function btnYouTube() {
   $('.youTube-btn').bind('click keypress', function() {
+    $form.show();
     showYouTube();
   });
 }
@@ -190,6 +193,7 @@ function showMovieDB() {
       }
     };
     //hide other results
+    $form.show();
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
     $movieDB.prop('hidden', true);
@@ -290,6 +294,7 @@ function discoverMovieDB() {
     };
     //hide other results
     $links.prop('hidden', true);
+    $form.hide();
     $youTube.prop('hidden', true);
     $title.text('Popular movies on Movie DB');
 
@@ -314,6 +319,7 @@ function discoverMovieDB() {
 function startOver() {
   $('.startOver-btn').bind('click keypress', function() {
     keyword = '';
+    $form.show();
     $btn.removeClass('selected');
     $links.prop('hidden', true);
     $youTube.prop('hidden', true);
