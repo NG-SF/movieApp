@@ -7,9 +7,9 @@ It uses API data from YouTube and Movie DB to give users more information about 
 
 <a href='https://ng-sf.github.io/movieApp/'>Try it</a>
 
-#Technology used:
+# Technology used:
 
-HTML5, CSS3, Javascript, jQuery, AJAX
+HTML5, CSS3, JavaScript, jQuery, AJAX
 
 # Screenshots
 
