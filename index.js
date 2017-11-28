@@ -63,7 +63,6 @@ function showLinks() {
 
 //generates YouTube data
 function displayYouTubeData(json) {
-  // console.log(json);
   nextPage = json.nextPageToken;
   prevPage = json.prevPageToken;
   const results = json.items.map((item, index) => {
@@ -81,7 +80,7 @@ function displayYouTubeData(json) {
     .empty()
     .html(results);
 
-  //function to display YouTube videos in a lightbox
+  //displays YouTube videos in a lightbox
   videoClick();
 }
 
@@ -152,8 +151,8 @@ function hideLightbox() {
 }
 
 // hides lightbox when esc key pressed
-$(document).keyup(function(e) {
-  if (e.keyCode == 27) {
+$(document).keyup(function(event) {
+  if (event.keyCode == 27) {
     hideLightbox();
   }
 });
@@ -214,7 +213,7 @@ function showMovieDB() {
       $.ajax(settings)
         .done(displayMovieDBdata)
         .fail(function(xhr, status, errorThrown) {
-          // alert('Sorry, there was a problem!');
+          $title.text('Sorry, something went wrong');
           console.log('Error: ' + errorThrown);
           console.log('Status: ' + status);
           console.dir(xhr);
@@ -243,7 +242,10 @@ function displayMovieDBdata(json) {
     .prop('hidden', false)
     .empty()
     .html(oneMovie);
+
   stats();
+
+  //if no results found, display message to user
   if (output.length === 0) {
     $title.text('Sorry nothing was found :(');
     $movieDB.prop('hidden', true);
@@ -307,7 +309,7 @@ function discoverMovieDB() {
     $.ajax(param)
       .done(displayMovieDBdata)
       .fail(function(xhr, status, errorThrown) {
-        // alert('Sorry, there was a problem!');
+        $title.text('Sorry, something went wrong');
         console.log('Error: ' + errorThrown);
         console.log('Status: ' + status);
         console.dir(xhr);

@@ -12,7 +12,7 @@ body {
   padding: 0;
 }
 
-/* Styles headings*/
+/* Headings */
 .titleMain {
   color: #e62e00;
   display: block;
@@ -42,6 +42,9 @@ h3 {
 }
 
 /* Styles for input and buttons*/
+form {
+  margin-bottom: 20px;
+}
 
 input {
   width: 63%;
@@ -75,7 +78,7 @@ button {
 
 .startOver-btn {
   display: block;
-  margin: 20px auto;
+  margin: 0 auto;
   border: 1px solid #fff0e6;
 }
 
@@ -134,7 +137,7 @@ a .youTube-img {
 }
 
 /* General styles for output area*/
-.centerCol {
+.outputField {
   margin: 0 auto;
   float: none;
   display: block;
@@ -146,7 +149,7 @@ a .youTube-img {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.centerCol h2 {
+.outputField h2 {
   text-align: center;
 }
 
@@ -234,6 +237,7 @@ iframe {
 
   h2 {
     font-size: 1.3rem;
+    list-style: 1.6rem;
   }
 
   .titleMain {
@@ -246,7 +250,7 @@ iframe {
   }
 
   input {
-    width: 75%;
+    width: 70%;
   }
 
   button {
@@ -266,7 +270,7 @@ iframe {
     width: 210px;
   }
 
-  .centerCol {
+  .outputField {
     width: 100%;
   }
 

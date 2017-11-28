@@ -30,18 +30,20 @@
            <p>This app was created to make the process of choosing what movie to watch easier.  It uses YouTube and Movie DB APIs to retrieve information. </p>
            <p>Begin by entering title of the movie in a search box. Trailers from YouTube for that movie will be displayed first. Select Movie DB to see more information about searched movie.</p>
            <p>If you don't know the title of the movie, you can start by looking through the Most Popular movies on Movie DB or Other links for more inspiration.  Enjoy!</p>
+
            <form action="#" class="js-search-form">
              <label for="search">Start searching:</label>
              <input type="text" id='search' class="js-query" autofocus required>
              <button type="submit">Go</button>
            </form>
+
            <button class="startOver-btn" type="reset">Start Over</button>
          </section>
      </div><!-- end col-8 -->
    </div><!-- end row 1 -->
 
   <main role="main" class="row">
-    <div class="col-12 centerCol">
+    <div class="col-12 outputField">
       <h2 class="title">Search results will be displayed below</h2>
 
        <section role='region' class="outputYouTube" aria-live="assertive" hidden="true">
